@@ -1,0 +1,12 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Pytest cache
+.pytest_cache/
+
+# Generated reports
+# Keep generated reports in Git for portfolio demonstration

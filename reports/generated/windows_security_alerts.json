@@ -1,0 +1,483 @@
+{
+  "report_name": "CyberNova Windows Security Monitoring Report",
+  "generated_at": "2026-04-13T21:18:30.918819",
+  "total_alerts": 8,
+  "alerts": [
+    {
+      "rule_name": "Repeated Failed Logons",
+      "severity": "HIGH",
+      "mitre_attack": "T1110 - Brute Force",
+      "affected_user": "lab-admin",
+      "source_ip": "203.0.113.25",
+      "host": "WIN-DC01",
+      "count": 3,
+      "first_seen": "2026-08-10T09:01:15",
+      "last_seen": "2026-08-10T09:03:01",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:01:15",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:01:15",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        },
+        {
+          "timestamp": "2026-08-10T09:02:10",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:02:10",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        },
+        {
+          "timestamp": "2026-08-10T09:03:01",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:03:01",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:01:15",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        },
+        {
+          "timestamp": "2026-08-10T09:02:10",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        },
+        {
+          "timestamp": "2026-08-10T09:03:01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        }
+      ],
+      "risk": "HIGH",
+      "recommendation": "Investigate whether a successful logon occurred after repeated failures, validate the source IP, and review authentication activity for the account.",
+      "detector": "Repeated Failed Logons"
+    },
+    {
+      "rule_name": "Successful Login After Multiple Failures",
+      "severity": "CRITICAL",
+      "mitre_attack": "T1078 - Valid Accounts",
+      "affected_user": "lab-admin",
+      "source_ip": "203.0.113.25",
+      "host": "WIN-DC01",
+      "failed_count": 3,
+      "success_time": "2026-08-10T09:05:44",
+      "first_failed": "2026-08-10T09:01:15",
+      "last_failed": "2026-08-10T09:03:01",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:01:15",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:01:15",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        },
+        {
+          "timestamp": "2026-08-10T09:02:10",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:02:10",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        },
+        {
+          "timestamp": "2026-08-10T09:03:01",
+          "host": "WIN-DC01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "FAILED",
+          "raw": {
+            "timestamp": "2026-08-10T09:03:01",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4625,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "FAILED"
+          }
+        },
+        {
+          "timestamp": "2026-08-10T09:05:44",
+          "host": "WIN-DC01",
+          "event_id": 4624,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": "SUCCESS",
+          "raw": {
+            "timestamp": "2026-08-10T09:05:44",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4624,
+            "USER": "lab-admin",
+            "SRC_IP": "203.0.113.25",
+            "LOGON_TYPE": "3",
+            "STATUS": "SUCCESS"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:01:15",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        },
+        {
+          "timestamp": "2026-08-10T09:02:10",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        },
+        {
+          "timestamp": "2026-08-10T09:03:01",
+          "event_id": 4625,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "FAILED"
+        },
+        {
+          "timestamp": "2026-08-10T09:05:44",
+          "event_id": 4624,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "status": "SUCCESS"
+        }
+      ],
+      "risk": "CRITICAL",
+      "recommendation": "Investigate the successful authentication immediately. Validate the source IP, confirm whether the account owner expected the activity, review privilege changes, and examine subsequent account activity.",
+      "detector": "Successful Login After Multiple Failures"
+    },
+    {
+      "rule_name": "New User Account Creation",
+      "severity": "HIGH",
+      "mitre_attack": "T1136 - Create Account",
+      "affected_user": "backup-admin",
+      "created_by": "lab-admin",
+      "host": "WIN-DC01",
+      "timestamp": "2026-08-10T09:12:30",
+      "action": "USER_CREATED",
+      "risk": "HIGH",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:12:30",
+          "host": "WIN-DC01",
+          "event_id": 4720,
+          "user": "lab-admin",
+          "source_ip": null,
+          "process": null,
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:12:30",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4720,
+            "USER": "lab-admin",
+            "TARGET_USER": "backup-admin",
+            "ACTION": "USER_CREATED"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:12:30",
+          "event_id": 4720,
+          "user": "lab-admin",
+          "target_user": "backup-admin",
+          "host": "WIN-DC01",
+          "action": "USER_CREATED"
+        }
+      ],
+      "recommendation": "Verify that the account creation was authorized. Confirm the business purpose of the new account, review its assigned privileges, identify who performed the action, and investigate related authentication or privilege-change activity.",
+      "detector": "New User Account Creation"
+    },
+    {
+      "rule_name": "Privileged Group Membership Change",
+      "severity": "HIGH",
+      "mitre_attack": "T1098 - Account Manipulation",
+      "affected_user": "lab-admin",
+      "privileged_group": "Administrators",
+      "action": "ADDED",
+      "host": "WIN-DC01",
+      "timestamp": "2026-08-10T09:06:30",
+      "risk": "HIGH",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:06:30",
+          "host": "WIN-DC01",
+          "event_id": 4728,
+          "user": "lab-admin",
+          "source_ip": null,
+          "process": null,
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:06:30",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4728,
+            "USER": "lab-admin",
+            "GROUP": "Administrators",
+            "ACTION": "ADDED"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:06:30",
+          "event_id": 4728,
+          "user": "lab-admin",
+          "group": "Administrators",
+          "action": "ADDED",
+          "host": "WIN-DC01"
+        }
+      ],
+      "recommendation": "Verify that the privileged group membership change was authorized. Identify the administrator who performed the action, confirm the business justification, review the affected account's new privileges, and investigate related authentication activity.",
+      "detector": "Privileged Group Membership Change"
+    },
+    {
+      "rule_name": "Suspicious PowerShell Execution",
+      "severity": "HIGH",
+      "mitre_attack": "T1059.001 - PowerShell",
+      "affected_user": "lab-admin",
+      "host": "WIN-DC01",
+      "timestamp": "2026-08-10T09:08:05",
+      "process": "powershell.exe",
+      "command": "Invoke-WebRequest http://example",
+      "matched_patterns": [
+        "invoke-webrequest"
+      ],
+      "risk": "HIGH",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:08:05",
+          "host": "WIN-DC01",
+          "event_id": 4104,
+          "user": "lab-admin",
+          "source_ip": null,
+          "process": "powershell.exe",
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:08:05",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4104,
+            "USER": "lab-admin",
+            "PROCESS": "powershell.exe",
+            "COMMAND": "Invoke-WebRequest http://example"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:08:05",
+          "event_id": 4104,
+          "user": "lab-admin",
+          "host": "WIN-DC01",
+          "process": "powershell.exe",
+          "command": "Invoke-WebRequest http://example"
+        }
+      ],
+      "false_positive_note": "PowerShell is commonly used for legitimate administration and automation. Validate the command, user, host, and expected administrative activity before determining maliciousness.",
+      "recommendation": "Review the PowerShell command, confirm whether the activity was authorized, identify the user and host involved, and correlate with nearby authentication and privilege-change events.",
+      "detector": "Suspicious PowerShell Execution"
+    },
+    {
+      "rule_name": "Suspicious Process Execution",
+      "severity": "MEDIUM",
+      "mitre_attack": "T1059 - Command and Scripting Interpreter",
+      "affected_user": "lab-admin",
+      "host": "WIN-DC01",
+      "process": "cmd.exe",
+      "parent_process": "powershell.exe",
+      "command": "cmd.exe /c whoami",
+      "matched_patterns": [
+        "process:cmd.exe",
+        "whoami"
+      ],
+      "timestamp": "2026-08-10T09:14:22",
+      "risk": "MEDIUM",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:14:22",
+          "host": "WIN-DC01",
+          "event_id": 4688,
+          "user": "lab-admin",
+          "source_ip": null,
+          "process": "cmd.exe",
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:14:22",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4688,
+            "USER": "lab-admin",
+            "PROCESS": "cmd.exe",
+            "PARENT_PROCESS": "powershell.exe",
+            "COMMAND": "cmd.exe /c whoami"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:14:22",
+          "event_id": 4688,
+          "user": "lab-admin",
+          "process": "cmd.exe",
+          "parent_process": "powershell.exe",
+          "command": "cmd.exe /c whoami"
+        }
+      ],
+      "recommendation": "Review the process execution in context. Validate the parent-child process relationship, confirm whether the command was authorized, identify the account responsible, and correlate with nearby authentication and PowerShell activity.",
+      "false_positive_note": "Command interpreters and administrative utilities can be legitimate. Determine whether the process, parent process, command line, user, and timing are consistent with expected administrative activity.",
+      "detector": "Suspicious Process Execution"
+    },
+    {
+      "rule_name": "Account Lockout",
+      "severity": "MEDIUM",
+      "mitre_attack": "T1110 - Brute Force",
+      "affected_user": "backup-admin",
+      "triggered_by": "lab-admin",
+      "source_ip": "203.0.113.25",
+      "host": "WIN-DC01",
+      "timestamp": "2026-08-10T09:16:40",
+      "action": "ACCOUNT_LOCKED",
+      "risk": "MEDIUM",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:16:40",
+          "host": "WIN-DC01",
+          "event_id": 4740,
+          "user": "lab-admin",
+          "source_ip": "203.0.113.25",
+          "process": null,
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:16:40",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 4740,
+            "USER": "lab-admin",
+            "TARGET_USER": "backup-admin",
+            "SRC_IP": "203.0.113.25",
+            "ACTION": "ACCOUNT_LOCKED"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:16:40",
+          "event_id": 4740,
+          "user": "lab-admin",
+          "target_user": "backup-admin",
+          "source_ip": "203.0.113.25",
+          "action": "ACCOUNT_LOCKED"
+        }
+      ],
+      "recommendation": "Investigate the account lockout and determine whether it resulted from legitimate activity or repeated suspicious authentication attempts. Review recent failed logons, identify the source, and confirm whether the account owner expected the activity.",
+      "false_positive_note": "Account lockouts can be caused by legitimate password mistakes, stale credentials, mapped drives, scheduled tasks, or service accounts. Correlate the lockout with authentication events before determining maliciousness.",
+      "detector": "Account Lockout"
+    },
+    {
+      "rule_name": "Windows Security Log Cleared",
+      "severity": "HIGH",
+      "mitre_attack": "T1070.001 - Clear Windows Event Logs",
+      "affected_user": "lab-admin",
+      "host": "WIN-DC01",
+      "timestamp": "2026-08-10T09:10:12",
+      "action": "LOG_CLEARED",
+      "risk": "HIGH",
+      "related_events": [
+        {
+          "timestamp": "2026-08-10T09:10:12",
+          "host": "WIN-DC01",
+          "event_id": 1102,
+          "user": "lab-admin",
+          "source_ip": null,
+          "process": null,
+          "status": null,
+          "raw": {
+            "timestamp": "2026-08-10T09:10:12",
+            "HOST": "WIN-DC01",
+            "EVENT_ID": 1102,
+            "USER": "lab-admin",
+            "ACTION": "LOG_CLEARED"
+          }
+        }
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-08-10T09:10:12",
+          "event_id": 1102,
+          "user": "lab-admin",
+          "host": "WIN-DC01",
+          "action": "LOG_CLEARED"
+        }
+      ],
+      "recommendation": "Investigate the Security log-clearing activity immediately. Verify whether the action was authorized, identify the responsible account, review activity immediately before the log was cleared, and determine whether additional evidence may have been removed.",
+      "false_positive_note": "Security logs may be cleared during legitimate administrative maintenance, testing, or incident response. Validate authorization and correlate the event with change-management or operational activity before determining maliciousness.",
+      "detector": "Windows Security Log Cleared"
+    }
+  ]
+}

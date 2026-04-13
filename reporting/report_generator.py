@@ -1,0 +1,306 @@
+#!/usr/bin/env python3
+
+import json
+from pathlib import Path
+from datetime import datetime
+
+
+def make_json_safe(value):
+    """
+    Convert Python objects into JSON-safe values.
+    """
+
+    if isinstance(value, datetime):
+        return value.isoformat()
+
+    if isinstance(value, dict):
+        return {
+            key: make_json_safe(item)
+            for key, item in value.items()
+        }
+
+    if isinstance(value, list):
+        return [
+            make_json_safe(item)
+            for item in value
+        ]
+
+    return value
+
+
+def generate_json_report(alerts, output_path):
+    """
+    Generate a JSON security alert report.
+    """
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    safe_alerts = make_json_safe(alerts)
+
+    report = {
+        "report_name": (
+            "CyberNova Windows Security "
+            "Monitoring Report"
+        ),
+        "generated_at": datetime.now().isoformat(),
+        "total_alerts": len(alerts),
+        "alerts": safe_alerts,
+    }
+
+    with output_path.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            report,
+            file,
+            indent=2,
+        )
+
+    return output_path
+
+
+def html_escape(value):
+    """
+    Escape values before inserting them into HTML.
+    """
+
+    text = str(value)
+
+    replacements = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#x27;",
+    }
+
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+
+    return text
+
+
+def generate_html_report(alerts, output_path):
+    """
+    Generate an analyst-friendly HTML report.
+    """
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    severity_counts = {
+        "CRITICAL": 0,
+        "HIGH": 0,
+        "MEDIUM": 0,
+        "LOW": 0,
+    }
+
+    for alert in alerts:
+        severity = str(
+            alert.get("severity", "LOW")
+        ).upper()
+
+        if severity in severity_counts:
+            severity_counts[severity] += 1
+
+    rows = []
+
+    for index, alert in enumerate(
+        alerts,
+        start=1,
+    ):
+        rows.append(
+            f"""
+            <tr>
+                <td>{index}</td>
+                <td>{html_escape(
+                    alert.get("rule_name")
+                )}</td>
+                <td>{html_escape(
+                    alert.get("severity")
+                )}</td>
+                <td>{html_escape(
+                    alert.get("affected_user")
+                )}</td>
+                <td>{html_escape(
+                    alert.get("host")
+                )}</td>
+                <td>{html_escape(
+                    alert.get("mitre_attack")
+                )}</td>
+                <td>{html_escape(
+                    alert.get("risk")
+                )}</td>
+            </tr>
+            """
+        )
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>
+CyberNova Windows Security Monitoring Report
+</title>
+
+<style>
+body {{
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f4f6f8;
+    color: #222;
+}}
+
+h1 {{
+    margin-bottom: 5px;
+}}
+
+.subtitle {{
+    color: #666;
+    margin-bottom: 30px;
+}}
+
+.summary {{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}}
+
+.card {{
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 130px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}}
+
+.card h2 {{
+    margin: 0;
+    font-size: 28px;
+}}
+
+.card p {{
+    margin-bottom: 0;
+    color: #666;
+}}
+
+table {{
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}}
+
+th, td {{
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}}
+
+th {{
+    background: #1f2937;
+    color: white;
+}}
+
+tr:hover {{
+    background: #f1f5f9;
+}}
+
+.footer {{
+    margin-top: 30px;
+    color: #666;
+    font-size: 13px;
+}}
+</style>
+
+</head>
+
+<body>
+
+<h1>
+CYBERNOVA WINDOWS SECURITY MONITORING LAB
+</h1>
+
+<div class="subtitle">
+Synthetic Windows Security Telemetry Report
+</div>
+
+<div class="summary">
+
+<div class="card">
+<h2>{len(alerts)}</h2>
+<p>Total Alerts</p>
+</div>
+
+<div class="card">
+<h2>{severity_counts["CRITICAL"]}</h2>
+<p>Critical</p>
+</div>
+
+<div class="card">
+<h2>{severity_counts["HIGH"]}</h2>
+<p>High</p>
+</div>
+
+<div class="card">
+<h2>{severity_counts["MEDIUM"]}</h2>
+<p>Medium</p>
+</div>
+
+<div class="card">
+<h2>{severity_counts["LOW"]}</h2>
+<p>Low</p>
+</div>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>#</th>
+<th>Detection</th>
+<th>Severity</th>
+<th>User</th>
+<th>Host</th>
+<th>MITRE ATT&CK</th>
+<th>Risk</th>
+</tr>
+</thead>
+
+<tbody>
+
+{"".join(rows)}
+
+</tbody>
+
+</table>
+
+<div class="footer">
+Generated by CyberNova Windows Security Monitoring Lab.
+All telemetry used in this report is synthetic laboratory data.
+</div>
+
+</body>
+</html>
+"""
+
+    with output_path.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+        file.write(html)
+
+    return output_path

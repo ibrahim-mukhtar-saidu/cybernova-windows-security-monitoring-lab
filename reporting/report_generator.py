@@ -297,10 +297,15 @@ All telemetry used in this report is synthetic laboratory data.
 </html>
 """
 
+    clean_html = "\n".join(
+        line.rstrip()
+        for line in html.splitlines()
+    ) + "\n"
+
     with output_path.open(
         "w",
         encoding="utf-8",
     ) as file:
-        file.write(html)
+        file.write(clean_html)
 
     return output_path

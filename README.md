@@ -1,139 +1,126 @@
 # CYBERNOVA Windows Security Monitoring Lab
 
-> **A Python-based Windows security monitoring and detection-engineering laboratory for SOC analysis, threat detection, MITRE ATT&CK mapping, automated alerting, testing, and security reporting.**
+A Python-based Windows Security Monitoring and SOC Detection Lab designed to simulate security-event analysis, threat detection, alert generation, reporting, and SOC-style visualization using synthetic Windows Security Event telemetry.
 
-![Python](https://img.shields.io/badge/Python-3.13-blue)
-![Tests](https://img.shields.io/badge/tests-13%20passed-brightgreen)
-![Detection Rules](https://img.shields.io/badge/detection%20rules-8-orange)
-![MITRE ATT\&CK](https://img.shields.io/badge/MITRE%20ATT%26CK-mapped-red)
-![Platform](https://img.shields.io/badge/platform-Windows%20Security%20Events-lightgrey)
-![Project](https://img.shields.io/badge/project-CYBERNOVA%20AI-purple)
+> **Project type:** Cybersecurity / SOC / Threat Detection / Security Monitoring
+> **Language:** Python
+> **Environment:** Linux / Python 3
+> **Data:** Synthetic laboratory Windows Security Events
+> **Testing:** 33 automated tests
+
+---
 
 ## Overview
 
-The **CYBERNOVA Windows Security Monitoring Lab** is a defensive cybersecurity project designed to demonstrate practical **SOC analyst** and **detection-engineering** capabilities using Python.
+The CYBERNOVA Windows Security Monitoring Lab demonstrates a lightweight security monitoring workflow similar to a Security Operations Center (SOC).
 
-The project ingests structured Windows Security Event data, parses the events, applies multiple detection rules, generates investigation-focused alerts, maps detections to **MITRE ATT&CK techniques**, and produces machine-readable and human-readable security reports.
+The project takes structured synthetic Windows Security Event data, parses and normalizes the events, runs multiple detection rules, generates security alerts, and produces analyst-friendly reports and a SOC dashboard.
 
-The laboratory is built around a realistic attack-investigation scenario in which suspicious authentication, account, privilege, PowerShell, process, account-lockout, and log-clearing activity occurs on a simulated Windows host.
-
-All event data included in this repository is **synthetic laboratory data** created for defensive security testing and portfolio demonstration.
-
----
-
-## Portfolio Objective
-
-This project demonstrates the ability to:
-
-* Analyze Windows Security Event data
-* Build security detection logic in Python
-* Identify suspicious authentication patterns
-* Detect account and privilege changes
-* Analyze PowerShell and process execution
-* Detect Windows Security log clearing
-* Generate structured security alerts
-* Map detections to MITRE ATT&CK
-* Assign severity and risk levels
-* Document false-positive considerations
-* Correlate security activity for investigation
-* Generate JSON and HTML security reports
-* Build automated tests for detection logic
-* Organize a modular cybersecurity codebase
-* Apply software-engineering practices to security tooling
-
-The goal is not simply to detect events, but to demonstrate how a security analyst or detection engineer can turn raw security telemetry into **actionable investigation signals**.
-
----
-
-# Detection Capabilities
-
-The current detection engine contains **8 security detection rules**.
-
-| # | Detection                                |         Windows Event ID | Severity | MITRE ATT&CK                              |
-| - | ---------------------------------------- | -----------------------: | -------- | ----------------------------------------- |
-| 1 | Repeated Failed Logons                   |                     4625 | HIGH     | Authentication / Brute Force              |
-| 2 | Successful Login After Multiple Failures |              4625 + 4624 | CRITICAL | T1078 - Valid Accounts                    |
-| 3 | New User Account Creation                |                     4720 | HIGH     | T1136 - Create Account                    |
-| 4 | Privileged Group Membership Change       | 4728/4732-style activity | HIGH     | T1098 - Account Manipulation              |
-| 5 | Suspicious PowerShell Execution          |                     4104 | HIGH     | T1059.001 - PowerShell                    |
-| 6 | Suspicious Process Execution             |                     4688 | MEDIUM   | T1059 - Command and Scripting Interpreter |
-| 7 | Account Lockout                          |                     4740 | MEDIUM   | T1110 - Brute Force                       |
-| 8 | Windows Security Log Cleared             |                     1102 | HIGH     | T1070.001 - Clear Windows Event Logs      |
-
-> Detection severity represents the rule's investigation priority. A detection does not automatically mean that malicious activity has been confirmed.
-
----
-
-# Example Investigation Scenario
-
-The included synthetic event stream represents a sequence of suspicious activity involving:
+### Monitoring Pipeline
 
 ```text
-Multiple failed authentication attempts
-        ↓
-Successful authentication
-        ↓
-Privileged group membership change
-        ↓
-Suspicious PowerShell execution
-        ↓
-Security log clearing
-        ↓
-New account creation
-        ↓
-Suspicious process execution
-        ↓
-Account lockout
+Synthetic Windows Security Events
+              │
+              ▼
+      Windows Event Parser
+              │
+              ▼
+       Event Normalization
+              │
+              ▼
+       Detection Engine
+              │
+      ┌───────┴────────┐
+      ▼                ▼
+ Detection Rules    Alert Generation
+      │                │
+      └───────┬────────┘
+              ▼
+       Severity Summary
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+   JSON Report    HTML Report
+       │             │
+       └──────┬──────┘
+              ▼
+       CYBERNOVA SOC
+          Dashboard
 ```
-
-This sequence demonstrates why SOC investigations require **event correlation and context**, rather than treating individual log events as isolated incidents.
-
-For example, a PowerShell command such as:
-
-```text
-Invoke-WebRequest http://example
-```
-
-may be legitimate administrative activity in one environment but suspicious in another.
-
-The detection therefore produces an alert requiring analyst validation instead of claiming that the activity is automatically malicious.
 
 ---
 
-# Detection Engine
+## Key Features
 
-The central detection engine provides a unified interface for running all available detection rules.
-
-```text
-Windows Security Events
-          │
-          ▼
-   Event Parser
-          │
-          ▼
-   Detection Engine
-          │
-    ┌─────┴─────┐
-    │           │
-    ▼           ▼
-Detection     Detection
-Rules         Correlation
-    │           │
-    └─────┬─────┘
-          ▼
-    Security Alerts
-          │
-     ┌────┴────┐
-     ▼         ▼
-   JSON       HTML
-   Report     Report
-```
-
-The architecture separates parsing, detection, reporting, and testing so that individual components can be maintained and expanded independently.
+* Synthetic Windows Security Event telemetry
+* Windows event parsing and normalization
+* Centralized detection engine
+* Multiple security detection rules
+* Alert severity classification
+* MITRE ATT&CK technique references
+* JSON security alert reporting
+* Analyst-friendly HTML reporting
+* Self-contained SOC dashboard
+* HTML output escaping for untrusted alert data
+* Automated unit and integration testing
+* Python compilation validation
+* Git-based project version control
 
 ---
 
-# Project Structure
+## Detection Rules
+
+The current detection engine contains eight detection rules:
+
+| Detection Rule                           | Purpose                                                       | Severity |
+| ---------------------------------------- | ------------------------------------------------------------- | -------- |
+| Repeated Failed Logons                   | Detects repeated authentication failures                      | HIGH     |
+| Successful Login After Multiple Failures | Detects successful authentication following multiple failures | CRITICAL |
+| New User Account Creation                | Detects creation of new user accounts                         | HIGH     |
+| Privileged Group Membership Change       | Detects changes to privileged group membership                | HIGH     |
+| Suspicious PowerShell Execution          | Detects suspicious PowerShell activity                        | HIGH     |
+| Suspicious Process Execution             | Detects suspicious process execution                          | MEDIUM   |
+| Account Lockout                          | Detects account lockout activity                              | MEDIUM   |
+| Windows Security Log Cleared             | Detects clearing of Windows Security logs                     | HIGH     |
+
+---
+
+## Sample Detection Results
+
+The current synthetic dataset contains:
+
+```text
+Events loaded: 10
+Alerts generated: 8
+```
+
+Severity summary:
+
+```text
+CRITICAL: 1
+HIGH:     5
+MEDIUM:   2
+LOW:      0
+```
+
+This allows the project to demonstrate how raw security telemetry can be transformed into prioritized security alerts.
+
+---
+
+## MITRE ATT&CK
+
+The detection rules reference relevant MITRE ATT&CK techniques, including examples such as:
+
+* **T1110 — Brute Force**
+* **T1070.001 — Clear Windows Event Logs**
+* **T1078 — Valid Accounts**
+* **T1059 — Command and Scripting Interpreter**
+
+The mappings are intended for educational and laboratory purposes using synthetic telemetry.
+
+---
+
+## Project Structure
 
 ```text
 cybernova-windows-security-monitoring-lab/
@@ -142,14 +129,14 @@ cybernova-windows-security-monitoring-lab/
 │   └── dashboard_generator.py
 │
 ├── detectors/
-│   ├── account_lockout.py
 │   ├── failed_logon.py
-│   ├── log_clearing.py
 │   ├── login_after_failures.py
-│   ├── powershell_execution.py
+│   ├── user_creation.py
 │   ├── privilege_change.py
+│   ├── powershell_execution.py
 │   ├── process_execution.py
-│   └── user_creation.py
+│   ├── account_lockout.py
+│   └── log_clearing.py
 │
 ├── engine/
 │   └── detection_engine.py
@@ -160,243 +147,44 @@ cybernova-windows-security-monitoring-lab/
 ├── reporting/
 │   └── report_generator.py
 │
+├── samples/
+│   └── windows_security_events.log
+│
 ├── reports/
 │   └── generated/
 │       ├── windows_security_alerts.json
-│       └── windows_security_report.html
-│
-├── samples/
-│   └── windows_security_events.log
+│       ├── windows_security_report.html
+│       └── cybernova_soc_dashboard.html
 │
 ├── tests/
 │   ├── test_all_detectors.py
 │   ├── test_detectors.py
 │   ├── test_parser.py
-│   └── test_reporting.py
+│   ├── test_reporting.py
+│   └── test_dashboard.py
 │
-├── .gitignore
 ├── main.py
-├── README.md
-└── requirements.txt
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-# SOC Detection Workflow
+## Installation
 
-The project follows a simplified security monitoring workflow:
-
-### 1. Collect
-
-Synthetic Windows Security Events are stored in the sample event log.
-
-### 2. Parse
-
-`parser/windows_event_parser.py` converts the raw event records into structured Python objects.
-
-### 3. Detect
-
-Individual detection modules analyze the structured events.
-
-### 4. Correlate
-
-The detection engine combines results from multiple rules into a unified alert collection.
-
-### 5. Prioritize
-
-Alerts receive severity and risk classifications such as:
-
-```text
-CRITICAL
-HIGH
-MEDIUM
-LOW
-```
-
-### 6. Investigate
-
-Alerts contain contextual information such as:
-
-* affected user
-* host
-* source IP
-* timestamp
-* command
-* process
-* parent process
-* matched patterns
-* related events
-* recommendations
-* false-positive considerations
-
-### 7. Report
-
-The reporting layer produces:
-
-* JSON security alert data
-* HTML security reports
-
----
-
-# Example Detection Output
-
-A successful-login-after-failures detection produces an alert similar to:
-
-```text
-=== CYBERNOVA WINDOWS SECURITY ALERT ===
-Rule:          Successful Login After Multiple Failures
-Severity:      CRITICAL
-MITRE ATT&CK:  T1078 - Valid Accounts
-User:          lab-admin
-Source IP:     203.0.113.25
-Host:          WIN-DC01
-Failed Logons: 3
-Risk:          CRITICAL
-```
-
-The recommendation directs the analyst to validate the source IP, confirm whether the account owner expected the activity, review privilege changes, and examine subsequent account activity.
-
----
-
-# False-Positive Awareness
-
-A key objective of this project is to demonstrate that **detection does not equal attribution**.
-
-Several rules explicitly account for legitimate administrative behavior.
-
-Examples include:
-
-* PowerShell used for legitimate automation
-* Account creation performed by authorized administrators
-* Privileged group changes during approved maintenance
-* Account lockouts caused by stale credentials
-* Security log clearing during authorized incident response
-* Command-line utilities used by system administrators
-
-The alerts therefore provide investigation guidance rather than automatically labeling activity as malicious.
-
-This reflects an important SOC principle:
-
-> **Detection identifies activity requiring investigation; analysts establish whether that activity is malicious.**
-
----
-
-# Testing
-
-The project includes automated tests covering the detection engine and individual detection behaviors.
-
-Current test result:
-
-```text
-13 passed
-```
-
-Run the complete test suite with:
+Clone the repository:
 
 ```bash
-python3 -m pytest -v
+git clone https://github.com/ibrahim-mukhtar-saidu/cybernova-windows-security-monitoring-lab.git
 ```
 
-A successful run should report:
-
-```text
-13 passed
-```
-
-Python compilation can also be checked with:
+Enter the project directory:
 
 ```bash
-python3 -m compileall -q parser detectors engine reporting dashboards main.py
-```
-
----
-
-# Reporting
-
-The reporting component generates both JSON and HTML outputs.
-
-### JSON
-
-```text
-reports/generated/windows_security_alerts.json
-```
-
-The JSON report is designed for machine-readable processing and future integration with other security tooling.
-
-### HTML
-
-```text
-reports/generated/windows_security_report.html
-```
-
-The HTML report provides a human-readable representation of generated security alerts.
-
-These generated reports are intentionally included in the repository as **portfolio demonstration artifacts**.
-
----
-
-# Technologies
-
-### Programming
-
-* Python 3
-* Object-oriented and modular Python design
-* File parsing
-* Structured data processing
-* JSON serialization
-
-### Cybersecurity
-
-* Windows Security Events
-* SOC detection concepts
-* Authentication monitoring
-* Account monitoring
-* Privilege monitoring
-* PowerShell monitoring
-* Process monitoring
-* Security log monitoring
-* MITRE ATT&CK mapping
-* False-positive analysis
-
-### Engineering
-
-* Modular architecture
-* Automated testing
-* Git version control
-* Virtual environments
-* JSON reporting
-* HTML reporting
-
----
-
-# MITRE ATT&CK Coverage
-
-The project currently references several MITRE ATT&CK techniques relevant to Windows security monitoring.
-
-| Technique | Detection Context                 |
-| --------- | --------------------------------- |
-| T1078     | Valid Accounts                    |
-| T1098     | Account Manipulation              |
-| T1110     | Brute Force                       |
-| T1136     | Create Account                    |
-| T1059     | Command and Scripting Interpreter |
-| T1059.001 | PowerShell                        |
-| T1070.001 | Clear Windows Event Logs          |
-
-MITRE mappings are used to provide additional context for investigation and detection engineering.
-
----
-
-# Installation
-
-Clone the repository and enter the project directory:
-
-```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
 cd cybernova-windows-security-monitoring-lab
 ```
 
-Create a Python virtual environment:
+Create a virtual environment:
 
 ```bash
 python3 -m venv venv
@@ -408,27 +196,39 @@ Activate it:
 source venv/bin/activate
 ```
 
-Install project dependencies:
+Install the project requirements:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the tests:
-
-```bash
-python3 -m pytest -v
-```
-
 ---
 
-# Running the Detection Lab
+## Running the Detection Lab
 
-The sample Windows Security Event data can be processed through the project's parser and detection engine.
+Run the main detection pipeline:
 
-The laboratory is designed to operate entirely on the included synthetic dataset, making it suitable for development and demonstration without requiring access to a production Windows environment.
+```bash
+python3 main.py
+```
 
-Generated reports can be found under:
+Expected output includes:
+
+```text
+CYBERNOVA WINDOWS SECURITY MONITORING LAB
+
+Events loaded: 10
+
+Detection Summary
+
+total_alerts: 8
+critical: 1
+high: 5
+medium: 2
+low: 0
+```
+
+The generated reports are written to:
 
 ```text
 reports/generated/
@@ -436,128 +236,226 @@ reports/generated/
 
 ---
 
-# Security and Ethical Scope
+## Generating the SOC Dashboard
 
-This project is intended for:
+The dashboard can be generated from the parsed events and detection results.
 
-* cybersecurity education
-* blue-team training
-* SOC analyst practice
-* detection engineering
-* defensive security research
-* portfolio demonstration
-* authorized laboratory environments
+Example:
 
-The included event data is synthetic and does not represent real customer, enterprise, or production security telemetry.
+```python
+from pathlib import Path
 
----
+from parser.windows_event_parser import load_events
+from engine.detection_engine import run_detections
+from dashboards.dashboard_generator import generate_dashboard
 
-# Limitations
+events = load_events(
+    "samples/windows_security_events.log"
+)
 
-This is a **portfolio laboratory**, not a production SIEM or enterprise detection platform.
+alerts = run_detections(events)
 
-Current limitations include:
+output = Path(
+    "reports/generated/cybernova_soc_dashboard.html"
+)
 
-* Synthetic event data
-* File-based event ingestion
-* No live Windows Event Forwarding pipeline
-* No production SIEM integration
-* No real-time event streaming
-* No centralized authentication
-* No enterprise-scale alert management
-* Limited correlation compared with commercial SIEM platforms
+generate_dashboard(alerts, output)
+```
 
-These limitations are intentional and provide opportunities for future development.
-
----
-
-# Future Development
-
-Potential improvements include:
-
-* Live Windows Event Log ingestion
-* Windows Event Forwarding support
-* Sysmon event support
-* More advanced event correlation
-* Configurable detection thresholds
-* YAML/JSON-based detection rules
-* Alert deduplication
-* Analyst case management
-* Interactive security dashboards
-* Risk scoring improvements
-* Email or webhook alerting
-* Elasticsearch/OpenSearch integration
-* Splunk integration
-* Sigma rule support
-* Expanded MITRE ATT&CK coverage
-* Detection performance benchmarking
-* CI/CD security testing
-
----
-
-# What This Project Demonstrates
-
-This project demonstrates practical ability across both sides of a SOC/detection-engineering workflow:
-
-### SOC Analyst Skills
-
-* Security event analysis
-* Alert interpretation
-* Authentication investigation
-* Privilege investigation
-* Process analysis
-* PowerShell investigation
-* False-positive evaluation
-* Risk prioritization
-* Investigation recommendations
-
-### Detection Engineering Skills
-
-* Detection rule development
-* Event correlation
-* MITRE ATT&CK mapping
-* Modular detection architecture
-* Alert schema design
-* Automated testing
-* Security reporting
-* Maintainable Python code
-
-The project therefore serves as a practical demonstration of the workflow:
+The resulting dashboard is:
 
 ```text
-Telemetry
-   ↓
-Parsing
-   ↓
-Detection
-   ↓
-Correlation
-   ↓
-Prioritization
-   ↓
-Investigation
-   ↓
-Reporting
+reports/generated/cybernova_soc_dashboard.html
+```
+
+The dashboard provides:
+
+* Total alert count
+* Severity summary
+* Detection-rule summary
+* Security-alert table
+* User information
+* Host information
+* Source IP information
+* MITRE ATT&CK references
+* Alert timestamps
+
+---
+
+## Testing
+
+The project currently contains **33 automated tests**.
+
+Run the complete test suite:
+
+```bash
+python3 -m pytest -q
+```
+
+Expected result:
+
+```text
+33 passed
+```
+
+Run parser tests:
+
+```bash
+python3 -m pytest -q tests/test_parser.py
+```
+
+Run reporting tests:
+
+```bash
+python3 -m pytest -q tests/test_reporting.py
+```
+
+Run dashboard tests:
+
+```bash
+python3 -m pytest -q tests/test_dashboard.py
+```
+
+Run detector tests:
+
+```bash
+python3 -m pytest -q tests/test_detectors.py
 ```
 
 ---
 
-# Author
+## Code Validation
+
+Python compilation can be checked with:
+
+```bash
+python3 -m compileall -q \
+parser \
+detectors \
+engine \
+reporting \
+dashboards \
+main.py \
+tests
+```
+
+Git whitespace validation:
+
+```bash
+git diff --check
+```
+
+---
+
+## Security Considerations
+
+The dashboard and reporting components escape alert values before inserting them into generated HTML.
+
+This helps prevent alert data containing HTML or script content from being interpreted as executable markup when viewed in the generated report.
+
+The test suite includes validation for this behavior.
+
+Example test input:
+
+```text
+<script>alert('x')</script>
+```
+
+The dashboard generator escapes the value before inserting it into the HTML document.
+
+---
+
+## Laboratory Scope
+
+This project is designed for **defensive cybersecurity education and portfolio development**.
+
+The included Windows Security Event data is synthetic laboratory telemetry and does not represent real production security logs.
+
+No real credentials, personal information, or production system telemetry are required.
+
+---
+
+## What This Project Demonstrates
+
+This project demonstrates practical experience with:
+
+* Python security automation
+* Security event parsing
+* Log normalization
+* Detection engineering
+* Alert generation
+* Security severity classification
+* SOC monitoring concepts
+* MITRE ATT&CK mapping
+* Security reporting
+* Dashboard generation
+* Automated testing
+* Defensive security engineering
+* Git/GitHub project management
+
+---
+
+## Future Improvements
+
+Potential future versions may include:
+
+* Real Windows Event Log ingestion
+* Sigma rule support
+* Additional MITRE ATT&CK detections
+* Configurable detection thresholds
+* Alert filtering and search
+* Dashboard charts
+* Detection-rule configuration files
+* CSV report generation
+* Alert deduplication
+* Time-based correlation
+* Automated incident summaries
+* Docker-based laboratory deployment
+* CI testing with GitHub Actions
+
+---
+
+## Project Status
+
+**Current status: Active development**
+
+Current capabilities include:
+
+```text
+8 Detection Rules
+10 Synthetic Events
+8 Generated Alerts
+4 Severity Categories
+JSON Reporting
+HTML Reporting
+SOC Dashboard
+33 Automated Tests
+```
+
+---
+
+## Author
 
 **Ibrahim Mukhtar Saidu**
 
-Aspiring Cybersecurity Analyst | Detection Engineering & SOC Security
+Cybersecurity learner and project developer focused on:
 
-**CYBERNOVA AI**
+* Security Operations
+* Threat Detection
+* Security Monitoring
+* Python Security Automation
+* Linux
+* Defensive Cybersecurity
 
-This project is part of my cybersecurity portfolio and demonstrates hands-on work in Python security automation, Windows security monitoring, SOC detection, and defensive security engineering.
+### CYBERNOVA AI
+
+This project is part of the CYBERNOVA AI cybersecurity portfolio.
 
 ---
 
 ## Disclaimer
 
-This repository is intended for educational and defensive cybersecurity purposes.
+This project is an educational cybersecurity laboratory.
 
-All security events included in the laboratory are synthetic. The techniques and detection logic should be used only in systems and environments where you have appropriate authorization.
+All included security events are synthetic. The project is intended for defensive security learning, detection engineering practice, SOC concepts, and portfolio demonstration.README.md
 
-**Built for learning, detection engineering, and defensive security.**

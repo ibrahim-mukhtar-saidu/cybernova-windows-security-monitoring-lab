@@ -107,6 +107,38 @@ This allows the project to demonstrate how raw security telemetry can be transfo
 
 ---
 
+## Screenshots & Evidence
+
+The following screenshots demonstrate the project's detection pipeline, SOC dashboard, and automated testing results.
+
+### Detection Run
+
+The detection engine processes the synthetic Windows Security Event dataset and generates prioritized security alerts.
+
+![Detection Run](screenshots/detection-run.png)
+
+
+### CYBERNOVA SOC Dashboard
+
+The self-contained SOC dashboard provides a visual overview of alert severity, detection rules, affected users, hosts, source IPs, MITRE ATT&CK mappings, and timestamps.
+
+![CYBERNOVA SOC Dashboard](screenshots/cybernova-soc-dashboard.png)
+
+
+### SOC Dashboard — Detailed View
+
+An additional dashboard view showing the generated security monitoring results.
+
+![CYBERNOVA SOC Dashboard Detailed View](screenshots/cybernova-soc-dashboard2.png)
+
+
+### Automated Tests
+
+The project includes automated parser, detector, engine, reporting, and dashboard tests.
+
+![33 Automated Tests Passing](screenshots/tests-passing.png)
+
+
 ## MITRE ATT&CK
 
 The detection rules reference relevant MITRE ATT&CK techniques, including examples such as:

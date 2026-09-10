@@ -43,10 +43,9 @@ def run_detections(events):
                 alerts.append(alert)
 
         except Exception as exc:
-            print(
-                f"[ERROR] Detector failed: "
-                f"{detector_name}: {exc}"
-            )
+            raise RuntimeError(
+                f"Detector failed: {detector_name}"
+            ) from exc
 
     return alerts
 

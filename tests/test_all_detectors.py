@@ -1,5 +1,7 @@
 import unittest
 
+import engine.detection_engine as detection_engine
+
 from parser.windows_event_parser import load_events
 from engine.detection_engine import run_detections, summarize_alerts
 
@@ -19,6 +21,25 @@ class TestWindowsSecurityMonitoring(unittest.TestCase):
         alerts = run_detections(self.events)
 
         self.assertEqual(len(alerts), 8)
+
+    def test_detector_failure_raises_runtime_error(self):
+        original_detectors = detection_engine.DETECTORS
+
+        def failing_detector(events):
+            raise ValueError("synthetic detector failure")
+
+        detection_engine.DETECTORS = [
+            ("Synthetic Failure Detector", failing_detector)
+        ]
+
+        try:
+            with self.assertRaisesRegex(
+                RuntimeError,
+                "Detector failed: Synthetic Failure Detector",
+            ):
+                run_detections(self.events)
+        finally:
+            detection_engine.DETECTORS = original_detectors
 
     def test_severity_summary(self):
         alerts = run_detections(self.events)
